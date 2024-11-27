@@ -57,7 +57,7 @@ use macros::REGEX_GET_TERMS;
 // use macros::REGEX_GET_COEF_AND_EXPOSANT;
 
 enum EquationTermKind{
-    Quadratic(f64, i32),    // Coefficient (f64), Exponent (i32)  
+    Quadratic(f64, i32),    // Coefficient (f64), Exponent (i32)  // donenr un nom aux valeurs
     Linear(f64),            // Coefficient (f64)
     Constant(f64),          // Constant (f64)
 }
@@ -81,42 +81,69 @@ fn capture_equation_terms(input : &str) -> Vec::<&str>{ // parse input
     vec_of_captured_terms
 }
 
-fn fill_equation_terms_vector(right_side_terms: Vec::<&str>, left_side_terms: Vec::<&str>){
+fn fill_equation_terms_vector(right_side_terms: Vec::<&str>, left_side_terms: Vec::<&str>) -> Vec::<EquationTermKind>{
 
     let mut equation_terms_vec = Vec::<EquationTermKind>::new();
 
     for term in right_side_terms {
-        let term_splitted = term.split("*");
-        let coefficient = term_splitted[0].parse::<f64>()
-            .unwrap_or_else(panic!("number not compatible"));
+        let term_splitted : Vec::<&str> = term.split("*").collect();
+        let Ok(coefficient) = term_splitted[0].parse::<f64>() else {
+            println!("caca1");
+            return vec![];
+        };
         match term_splitted[1]{
-            "X^0"=>{ equation_terms_vec.push(EquationTermKind::Constant(coefficient));}
-            "X^1"=>{ equation_terms_vec.push(EquationTermKind::Linear(coefficient));}
-            _ => {equation_terms_vec.push(EquationTermKind::Quadratic(coefficient, 2));}
+            "0"=>{ equation_terms_vec.push(EquationTermKind::Constant(coefficient));}
+            "1"=>{ equation_terms_vec.push(EquationTermKind::Linear(coefficient));}
+            _ => {
+                let Ok(exposant) = term_splitted[1].parse::<f32>() else{
+                    println!("caca2");
+                    return vec![];
+                };
+                equation_terms_vec.push(EquationTermKind::Quadratic(coefficient, 2));}
         }
+        println!("{}", term);
 
     }
-    dbg!(equation_terms_vec)
-
+    for term in left_side_terms {
+        let term_splitted : Vec::<&str> = term.split("*").collect();
+        let Ok(coefficient) = term_splitted[0].parse::<f64>() else {
+            println!("caca3");
+            return vec![];
+        };
+        match term_splitted[1]{
+            "0"=>{ equation_terms_vec.push(EquationTermKind::Constant(-coefficient));}
+            "1"=>{ equation_terms_vec.push(EquationTermKind::Linear(-coefficient));}
+            _ => {
+                let Ok(exposant) = term_splitted[1].parse::<f32>() else{
+                    println!("caca4");
+                    return vec![];
+                };
+                equation_terms_vec.push(EquationTermKind::Quadratic(-coefficient, 2));}
+        }
+        println!("{}", term);
+    }
+    equation_terms_vec
 }
+// reduire
+// -> add constants
+// -> add linear
+// -> add quadratic -> ajouter les puissances de deux, et si autres qui s'annulent pas print une erreur
 
 fn main(){
 
     let equation_string = String::from("5 * X^2 + 5.1 * X^3 = 2 * X^6").replace(" ", "");
-    dbg!(&equation_string);
-
     check_input_format(&equation_string);
 
+    let equation_string = equation_string.replace("X^", "");
     let eq_vec : Vec::<&str> = equation_string.split("=").collect();
 
-    // println!("{}", eq_vec[0]); // capturer les groupes et remplir mon enum pour la gauche
-    // println!("{}", eq_vec[1]); // capturer les groupes et remplir mon enum en les mettant a gauche en inversant leur signe
-    let equation_left_side_terms = capture_equation_terms(&eq_vec[0]);
+    dbg!(&eq_vec);
+    let left_side_terms = capture_equation_terms(&eq_vec[0]);
+    let right_side_terms = capture_equation_terms(&eq_vec[1]);
 
-    // dbg!(equation_left_side_terms);
-    let equation_right_side_terms = capture_equation_terms(&eq_vec[1]);
+    let eq_terms_vector = fill_equation_terms_vector(left_side_terms, right_side_terms);
 
-    fill_equation_terms_vector(equation_left_side_terms, equation_right_side_terms);
+
     // dbg!(equation_right_side_terms);
     // reduire
     // calculer le delta
