@@ -5,20 +5,16 @@
 //     constant:<f64>,
 // };
 
-// use std::io;
-
 
 mod parser;
+mod equation_solver;
 use crate::parser::parser;
-// use std::collections::HashMap;
-// use parser::parser;
-// use macros::REGEX_GET_TERMS;
-// use std::collections::HashMap;
-
+use crate::equation_solver::solver;
 
 fn main() -> Result<(), String>{
 
-    let terms = parser()?;
-    dbg!(terms);
-    Ok(())
+    let equation_terms = parser()?;
+    dbg!(&equation_terms);
+    // Ok(())
+    solver(equation_terms)
 }
