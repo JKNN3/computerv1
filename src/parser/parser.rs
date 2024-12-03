@@ -49,11 +49,12 @@ fn fill_equation_terms_map(right_side_terms: Vec::<&str>, left_side_terms: Vec::
 fn add_terms_to_map(terms: &mut HashMap<i32, f64>, vector_of_terms: Vec::<&str>, sign: f64) -> Result<(),String>{
 
     for term in vector_of_terms{ if term.contains("*"){
-    println!("{}", term);
+
+    // println!("{}", term);
         let term = term.split("*").collect();
         match parse_term(term){
             Ok((exponent, coef)) => {
-                println!("exp{} coef:{}", exponent,coef);
+                // println!("exp{} coef:{}", exponent,coef);
                 terms.entry(exponent)
                     .and_modify(|e| *e += coef * sign)
                     .or_insert_with(|| coef * sign);
@@ -68,6 +69,6 @@ fn parse_term(term_splitted: Vec<&str>) -> Result<(i32, f64), String> {
 
     let coef = term_splitted[0].parse::<f64>().map_err(|_| format!("Failed to parse coefficient '{}'", term_splitted[1]))?;
     let exponent = term_splitted[1].parse::<i32>().map_err(|_| format!("Failed to parse exponent '{}'", term_splitted[0]))?;
-    println!("coef: {coef}, exp: {exponent}");
+    // println!("coef: {coef}, exp: {exponent}");
     Ok((exponent, coef))
 }

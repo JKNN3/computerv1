@@ -8,7 +8,6 @@ use parser::check_input_format;
 // use parser_utils::*; //  pour pouvoir utiliser toutes les fonctions publiques du fichier parser_utils
 
 pub fn parser() -> Result<HashMap<i32, f64>, String>{
-    println!("parser");
 
     let input: Vec<String> = env::args().collect();
     if input.len() != 2 {
