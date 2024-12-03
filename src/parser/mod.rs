@@ -1,11 +1,12 @@
-mod macros;
 mod parser;
+mod print_library;
 
 use std::env;
 use std::collections::HashMap;
 use parser::get_terms_map;
 use parser::check_input_format;
-// use parser_utils::*; //  pour pouvoir utiliser toutes les fonctions publiques du fichier parser_utils
+// use parser_utils::*; // * pour pouvoir utiliser toutes les fonctions publiques du fichier parser_utils
+
 
 pub fn parser() -> Result<HashMap<i32, f64>, String>{
 

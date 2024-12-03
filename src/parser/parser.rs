@@ -1,21 +1,23 @@
 
 use regex::Regex;
 use std::collections::HashMap;
-use super::macros::REGEX_CHECK_INPUT;
+use super::print_library::REGEX_CHECK_INPUT_FORMAT; // super permet d'utiliser des trucs publics de d'autres fichiers
 
 pub(super) fn check_input_format(input: &str) -> bool{
 
-    let regex_check_input = Regex::new(REGEX_CHECK_INPUT).unwrap();
+    let regex_check_input = Regex::new(REGEX_CHECK_INPUT_FORMAT).unwrap();
     regex_check_input.is_match(&input)
 }
 
 pub(super) fn get_terms_map(input: &str) -> Result<HashMap<i32, f64>, String>{
 
     let input = input.replace("X^", "");
+    let input = input.replace("+", " +");
+    let input = input.replace("-", " -");
+
     let eq_vec : Vec::<&str> = input.split("=").collect();
 
     if let (Some(a),Some(b)) = (eq_vec.get(0), eq_vec.get(1)) {
-    
         let left_side_terms = capture_equation_terms(a);
         let right_side_terms = capture_equation_terms(b);
 
@@ -29,7 +31,7 @@ pub(super) fn get_terms_map(input: &str) -> Result<HashMap<i32, f64>, String>{
 fn capture_equation_terms(input : &str) -> Vec::<&str>{ // put in a vector every term entity with "n * X^y" format
 
     if input.contains("+") || input.contains("-"){
-        input.split( |c| { c == '+' || c == '-'}).collect()
+        input.split(" ").collect()
     }
     else{
         vec![input]
@@ -50,11 +52,10 @@ fn add_terms_to_map(terms: &mut HashMap<i32, f64>, vector_of_terms: Vec::<&str>,
 
     for term in vector_of_terms{ if term.contains("*"){
 
-    // println!("{}", term);
         let term = term.split("*").collect();
         match parse_term(term){
+
             Ok((exponent, coef)) => {
-                // println!("exp{} coef:{}", exponent,coef);
                 terms.entry(exponent)
                     .and_modify(|e| *e += coef * sign)
                     .or_insert_with(|| coef * sign);
@@ -67,8 +68,7 @@ fn add_terms_to_map(terms: &mut HashMap<i32, f64>, vector_of_terms: Vec::<&str>,
 
 fn parse_term(term_splitted: Vec<&str>) -> Result<(i32, f64), String> {
 
-    let coef = term_splitted[0].parse::<f64>().map_err(|_| format!("Failed to parse coefficient '{}'", term_splitted[1]))?;
-    let exponent = term_splitted[1].parse::<i32>().map_err(|_| format!("Failed to parse exponent '{}'", term_splitted[0]))?;
-    // println!("coef: {coef}, exp: {exponent}");
+    let coef = term_splitted[0].parse::<f64>().map_err(|_| format!("Failed to parse coef '{}'", term_splitted[0]))?;
+    let exponent = term_splitted[1].parse::<i32>().map_err(|_| format!("Failed to parse exponent '{}'", term_splitted[1]))?;
     Ok((exponent, coef))
 }

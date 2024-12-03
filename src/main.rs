@@ -13,8 +13,15 @@ use crate::equation_solver::solver;
 
 fn main() -> Result<(), String>{
 
-    match parser(){
-        Ok(equation_terms) => solver(equation_terms),
-        Err(err) => Err(err),
-    }
+    let equation_terms = parser()?;
+    // dbg!(&equation_terms);
+    solver(equation_terms)
+
+// 
+    // match parser(){
+        // Ok(equation_terms) => {
+            // solver(equation_terms),
+        // }
+        // Err(err) => Err(err),
+    // }
 }
