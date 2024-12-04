@@ -6,5 +6,4 @@ In the quadratic expression  *ax^2+bx+c* , each part is called a term.
 - *bx* is the **linear term** (where *b* is the **linear coefficient**)
 - *c* is the **constant term**
 
-https://dev.to/ghost/rust-project-structure-example-step-by-step-3ee
 
