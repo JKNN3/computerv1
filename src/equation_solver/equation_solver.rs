@@ -95,5 +95,5 @@ fn compute_positive_discriminant_solution(term: &Term, discriminant: f64) -> (f6
 }
 // solve s = -b / a^2
 fn compute_zero_discrimiannt_solution(term: &Term) ->f64 {
-    (-term.b) / (term.a*term.a)
+    (-term.b) / (2*term.a)
 }
