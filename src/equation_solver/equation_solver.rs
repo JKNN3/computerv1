@@ -93,7 +93,7 @@ fn compute_positive_discriminant_solution(term: &Term, discriminant: f64) -> (f6
 
     (positive_solution, negative_solution)
 }
-// solve s = -b / a^2
+// solve s = -b / 2a
 fn compute_zero_discrimiannt_solution(term: &Term) ->f64 {
     (-term.b) / (2*term.a)
 }
