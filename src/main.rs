@@ -5,10 +5,9 @@ use crate::parser::parser;
 use crate::equation_solver::solver;
 
 /*      TODO
-    - readme
+
     - tests unitaires ? 
     - tests programme
-    - resolution solutions complexes pour le degre 2
 
 */
 
