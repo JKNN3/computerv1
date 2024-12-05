@@ -8,6 +8,7 @@ use crate::equation_solver::solver;
 
     - tests unitaires ? 
     - tests programme
+    - print l'équation réduite avant de check le degree
 
 */
 
