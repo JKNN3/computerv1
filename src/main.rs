@@ -8,6 +8,7 @@ use crate::equation_solver::solver;
     - readme
     - tests unitaires ? 
     - tests programme
+    - resolution solutions complexes pour le degre 2
 
 */
 
