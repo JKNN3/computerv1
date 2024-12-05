@@ -72,7 +72,7 @@ pub(super) fn resolve_degre_2(term: &Term) {
     let discriminant = compute_discriminant(&term);
 
     if discriminant > 0.0 {
-        let solution = compute_positive_discriminant_solution(&term, discriminant);
+        let solution = compute_positive_discriminant_solutions(&term, discriminant);
         Print::SolutionPositiveDiscriminant(solution.0, solution.1).display();
     
     } else if discriminant == 0.0 {
@@ -80,7 +80,8 @@ pub(super) fn resolve_degre_2(term: &Term) {
         Print::SolutionNullDiscriminant(solution).display();
 
     } else if discriminant < 0.0 {
-        Print::SolutionNegativeDiscriminant.display();
+        let solution = compute_negative_discriminant_solutions(term, discriminant);
+        Print::SolutionNegativeDiscriminant(solution.0, solution.1).display();
     }
 }
 // solve d =  b^2 - 4ac
@@ -89,7 +90,7 @@ fn compute_discriminant(term: &Term) -> f64 {
     (term.b * term.b) - (4.0 * term.a * term.c)
 }
 // solve s1 = -b + sqrt(d) / 2*a, s2 = -b - sqrt(d) / 2*a
-fn compute_positive_discriminant_solution(term: &Term, discriminant: f64) -> (f64, f64) {
+fn compute_positive_discriminant_solutions(term: &Term, discriminant: f64) -> (f64, f64) {
 
     let sqrt_result = discriminant.sqrt();
 
@@ -101,4 +102,13 @@ fn compute_positive_discriminant_solution(term: &Term, discriminant: f64) -> (f6
 // solve s = -b / 2a
 fn compute_zero_discrimiannt_solution(term: &Term) ->f64 {
     (-term.b) / (2.0*term.a)
+}
+
+// solve s1 = (-b + i*sqrt(d)) / 2a, s2 = (-b - i*sqrt(d)) / 2a
+fn compute_negative_discriminant_solutions(term: &Term, discriminant: f64) -> (f64, f64) {
+
+    let nb = (-term.b) / (2.0*term.a);
+    let complex = discriminant.abs().sqrt() / (2.0*term.a);
+
+    (nb, complex)
 }

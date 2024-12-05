@@ -11,7 +11,7 @@ pub enum Print{
     NoSolution,
     SolutionPositiveDiscriminant(f64, f64),
     SolutionNullDiscriminant(f64),
-    SolutionNegativeDiscriminant,
+    SolutionNegativeDiscriminant(f64, f64),
     ReducedForm(HashMap<i32, f64>),
 }
 
@@ -24,7 +24,7 @@ impl Print{
             Print::NoSolution => println!("There is no solution."),
             Print::SolutionPositiveDiscriminant(nb1, nb2) => println!("Discriminant is strictly positive, the two solutions are:\n{}\n{}", nb1, nb2),
             Print::SolutionNullDiscriminant(nb) => println!("Discriminant is strictly equal to zero, the solution is:\n{}", nb),
-            Print::SolutionNegativeDiscriminant => println!("Discriminant is strictly negative, no real solution, only complex."),
+            Print::SolutionNegativeDiscriminant(nb1, nb2) => println!("Discriminant is strictly negative, the two complex solutions are:\n{} + {}i\n{} - {}i", nb1, nb2, nb1, nb2),
             Print::ReducedForm(terms) => {
                 let mut to_print: String = String::new();
 
