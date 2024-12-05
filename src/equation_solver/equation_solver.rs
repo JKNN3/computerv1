@@ -1,4 +1,5 @@
 
+use std::process;
 use std::collections::HashMap;
 use super::print_enum::Print;
 
@@ -8,15 +9,17 @@ pub struct Term{
     c: f64,
 }
 
-// keep only the non null terms and return the largest degree
-pub(super) fn check_equation_degree(terms: &mut HashMap<i32, f64>) -> Result<i32, String> {
+/*  keep only the non null terms and return the largest degree
+    or exit if solutions are infinite   */  
+pub(super) fn check_equation_degree(terms: &mut HashMap<i32, f64>) -> i32 {
 
     terms.retain(|_, & mut value| value != 0.0 || value != -0.0);
 
     if let Some(&key) = terms.keys().max(){
-        return Ok(key);
+        return key;
     }
-    return Err("0 = 0, the equation is true, but there is nothing to solve!".to_string());
+    println!("There are an infinity of solutions, the equation is true for all x.");
+    process::exit(0)
 }
 
 /*  assigns to a Term structure the values ​​of the equation
@@ -47,14 +50,17 @@ fn get_coef(terms: &HashMap<i32, f64>, exponent_to_find: i32) -> f64 {
 /*  compute and print the degre 0 solution  */
 pub(super) fn resolve_degre_0(term: &Term) {
 
-    Print::ReducedFormDegre0(term.c).display();
-    Print::Solution(term.c).display();
+    if term.c == 0.0{
+        Print::Solution(term.c).display();
+    }
+    else{
+        Print::NoSolution.display();
+    }
 }
 
 /*  compute and print the degre 1 solution  */
 pub(super) fn resolve_degre_1(term: &Term) {
 
-    Print::ReducedFormDegre1(term.b, term.c).display();
     let result = - term.c / term.b;
     Print::Solution(result).display();
 }
@@ -63,7 +69,6 @@ pub(super) fn resolve_degre_1(term: &Term) {
     solve and display the solutions */
 pub(super) fn resolve_degre_2(term: &Term) {
 
-    Print::ReducedFormDegre2(term.a, term.b, term.c).display();
     let discriminant = compute_discriminant(&term);
 
     if discriminant > 0.0 {
@@ -95,5 +100,5 @@ fn compute_positive_discriminant_solution(term: &Term, discriminant: f64) -> (f6
 }
 // solve s = -b / 2a
 fn compute_zero_discrimiannt_solution(term: &Term) ->f64 {
-    (-term.b) / (2*term.a)
+    (-term.b) / (2.0*term.a)
 }

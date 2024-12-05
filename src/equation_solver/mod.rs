@@ -10,9 +10,10 @@ use print_enum::Print;
     solving functions */
 pub fn solver(mut terms: HashMap<i32, f64>) -> Result<(), String>{
 
-    let degree = check_equation_degree(&mut terms)?;
     let eq_terms = fill_equation_struct(&terms);
+    let degree = check_equation_degree(&mut terms);
 
+    Print::ReducedForm(terms).display();
     Print::PolynomialDegree(degree).display();
 
     match degree{
