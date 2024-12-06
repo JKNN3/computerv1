@@ -4,7 +4,7 @@
 
 use std::collections::HashMap;
 
-pub enum Print{
+pub enum Print<'a>{
     PolynomialDegree(i32),
     PolynomialDegreeError,
     Solution(f64),
@@ -12,10 +12,10 @@ pub enum Print{
     SolutionPositiveDiscriminant(f64, f64),
     SolutionNullDiscriminant(f64),
     SolutionNegativeDiscriminant(f64, f64),
-    ReducedForm(HashMap<i32, f64>),
+    ReducedForm(& 'a HashMap<i32, f64>),
 }
 
-impl Print{
+impl Print<'_>{
     pub fn display(&self){
         match self{
             Print::PolynomialDegree(degree) => println!("Polynomial degree: {}", degree),
@@ -28,7 +28,7 @@ impl Print{
             Print::ReducedForm(terms) => {
                 let mut to_print: String = String::new();
 
-                for (key, value) in terms {
+                for (key, value) in *terms {
                     if *value != 0.0 {
                         to_print += &format!("{} {}*X^{} ",
                             if *value > 0.0 && !to_print.is_empty() { "+" } else { "-" },
