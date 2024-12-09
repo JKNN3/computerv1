@@ -2,13 +2,13 @@
 A simple program that solves a polynomial second or lower degree equation
 
 ## Usage
-    git clone "..." ; cd computerzv
+    git clone "..." ; cd computerv1
     cargo run [your equation]
 
 
 -> every entity of the equation need to be formatted like **n * X^y** like
 
--  ` " 5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0 " ` 
+    ` " 5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0 " ` 
 
 ## Solving a Second Degree Equation
 
