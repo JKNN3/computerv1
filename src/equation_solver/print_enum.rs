@@ -41,6 +41,9 @@ impl Print<'_>{
                         to_print.remove(0);
                     }
                 }
+                if to_print.is_empty(){
+                    to_print += "0 ";
+                }
                 to_print = to_print.trim_end().to_string();
             
                 println!("Reduced form: {} = 0", to_print);
