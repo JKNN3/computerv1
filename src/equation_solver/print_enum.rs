@@ -37,7 +37,7 @@ impl Print<'_>{
                 }
             
                 if let Some(first_char) = to_print.chars().next() {
-                    if first_char == '+' || first_char == '-' {
+                    if first_char == '+' {
                         to_print.remove(0);
                     }
                 }
