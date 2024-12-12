@@ -90,5 +90,5 @@ fn parse_term(term: Vec<&str>) -> Result<(i32, f64), String> {
 /*  putting spaces before the signs to split on the space
 and keep the sign  */
 fn format_input(input: &str) -> String {
-    input.replace("X", "").replace("+", " +").replace("-", " -")
+    input.replace("X^", "").replace("+", " +").replace("-", " -")
 }
